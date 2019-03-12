@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>5</title>
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <style>
+      #chess {
+        display: block;
+        margin: 50px auto;
+        box-shadow: -2px -2px 2px #efefef, 5px 5px 5px #b9b9b9;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="chess" width="450" height="450"></canvas>
+    <script type="text/javascript" src="./Chess.js"></script>
+    <script>
+      var chess = new Chess()
+      chess.init()
+    </script>
+  </body>
+</html>

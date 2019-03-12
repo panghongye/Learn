@@ -1,0 +1,22 @@
+{
+  "scripts": {
+    "dev": "babel-node index.js"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "dependencies": {
+    "babel-preset-env": "^1.6.1",
+    "redux": "^3.7.2",
+    "redux-actions": "^2.2.1",
+    "reselect": "^3.0.1"
+  },
+  "name": "redux",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

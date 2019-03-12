@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@types/node": "^10.12.24",
+    "knex": "^0.16.3",
+    "mysql": "^2.16.0",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.3.3333"
+  }
+}
