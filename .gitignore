@@ -1,6 +1,7 @@
 
 \node_modules/
 \.cache/
+.cache
 yarn-error.log
 \dist/
 !*.*

@@ -5,7 +5,9 @@ import './css.scss'
 
 class HelloMessage extends React.Component<{ name?: string }> {
   render() {
-    return <div>Hello {this.props.name}</div>
+    let el= <div>Hello {this.props.name}</div>
+    console.log(el)
+    return el
   }
 }
 
