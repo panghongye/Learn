@@ -3,7 +3,7 @@ function A() {
   return {
     g() { return a },
     s(v) { a = v },
-    get a1() { return a }
+    get a() { return a }
   }
 }
 
@@ -12,6 +12,9 @@ class B {
     let value;
     this.g = () => value
     this.s = (v) => { value = v }
+  }
+  g() {
+    return 'B.prototype.g'
   }
 }
 
