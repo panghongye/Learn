@@ -4,5 +4,6 @@
 .cache
 yarn-error.log
 \dist/
+dist
 !*.*
 .DS_Store
