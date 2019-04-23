@@ -3,15 +3,16 @@
     "dev": "parcel index.html"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.3",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "parcel": "latest",
     "sass": "latest",
-    "stylus": "latest",
     "typescript": "latest"
   },
   "dependencies": {
+    "antd": "^3.16.5",
     "react": "latest",
     "react-dom": "latest"
   }
