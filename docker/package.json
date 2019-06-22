@@ -1,0 +1,14 @@
+{
+	"name": "pk",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"scripts": {
+		"add": "docker pull chevdor/polkadot",
+		"start": "docker run -d -p 30333:30333 -p 9933:9933 -p 9944:9944 -v /Users/panghongye/Temp/:/data chevdor/polkadot:latest polkadot --name",
+		"p": "docker run -d -p 127.0.0.1:30333:30333 -p 127.0.0.1:9933:9933 -p 127.0.0.1:9944:9944 -v /Users/panghongye/Temp/:/data chevdor/polkadot:latest polkadot",
+		"stop": "docker stop lucid_brown",
+		"logs": "docker logs -f lucid_brown",
+		"shell": "docker exec -it lucid_brown"
+	}
+}
