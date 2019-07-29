@@ -10,6 +10,7 @@ require (
 	github.com/Shopify/goreferrer v0.0.0-20181106222321-ec9c9a553398 // indirect
 	github.com/acroca/go-symbols v0.1.1 // indirect
 	github.com/agnivade/levenshtein v1.0.2 // indirect
+	github.com/ajg/form v1.5.1 // indirect
 	github.com/aymerick/raymond v2.0.2+incompatible // indirect
 	github.com/cweill/gotests v1.5.3 // indirect
 	github.com/davidrjenni/reftools v0.0.0-20190411195930-981bbac422f8 // indirect
@@ -17,15 +18,19 @@ require (
 	github.com/fatih/gomodifytags v0.0.0-20190517204355-df91c5bc7551 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/flosch/pongo2 v0.0.0-20190707114632-bbf5a6c351f4 // indirect
+	github.com/gavv/monotime v0.0.0-20190418164738-30dba4353424 // indirect
 	github.com/go-chi/chi v4.0.2+incompatible // indirect
 	github.com/gogo/protobuf v1.2.1 // indirect
+	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/gorilla/context v1.1.1 // indirect
 	github.com/gorilla/mux v1.7.3 // indirect
 	github.com/gorilla/websocket v1.4.0 // indirect
 	github.com/hashicorp/golang-lru v0.5.1 // indirect
+	github.com/imkira/go-interpol v1.1.0 // indirect
 	github.com/iris-contrib/blackfriday v2.0.0+incompatible // indirect
 	github.com/iris-contrib/formBinder v0.0.0-20190104093907-fbd5963f41e1 // indirect
 	github.com/iris-contrib/go.uuid v2.0.0+incompatible // indirect
+	github.com/iris-contrib/httpexpect v0.0.0-20180314041918-ebe99fcebbce // indirect
 	github.com/josharian/impl v0.0.0-20190706034337-76254c7a7314 // indirect
 	github.com/json-iterator/go v1.1.6 // indirect
 	github.com/juju/errors v0.0.0-20190207033735-e65537c515d7 // indirect
@@ -44,6 +49,7 @@ require (
 	github.com/mitchellh/mapstructure v1.1.2 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
+	github.com/moul/http2curl v1.0.0 // indirect
 	github.com/opentracing/opentracing-go v1.1.0 // indirect
 	github.com/ramya-rao-a/go-outline v0.0.0-20181122025142-7182a932836a // indirect
 	github.com/ryanuber/columnize v2.1.0+incompatible // indirect
@@ -55,6 +61,12 @@ require (
 	github.com/stretchr/objx v0.2.0 // indirect
 	github.com/vektah/dataloaden v0.3.0 // indirect
 	github.com/vektah/gqlparser v1.1.2
+	github.com/xeipuuv/gojsonpointer v0.0.0-20180127040702-4e3ac2762d5f // indirect
+	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect
+	github.com/xeipuuv/gojsonschema v1.1.0 // indirect
+	github.com/yalp/jsonpath v0.0.0-20180802001716-5cc68e5049a0 // indirect
+	github.com/yudai/gojsondiff v1.0.0 // indirect
+	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4 // indirect
 	golang.org/x/lint v0.0.0-20190409202823-959b441ac422 // indirect
 	golang.org/x/net v0.0.0-20190628185345-da137c7871d7 // indirect
