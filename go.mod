@@ -14,6 +14,7 @@ require (
 	github.com/aymerick/raymond v2.0.2+incompatible // indirect
 	github.com/cweill/gotests v1.5.3 // indirect
 	github.com/davidrjenni/reftools v0.0.0-20190411195930-981bbac422f8 // indirect
+	github.com/deckarep/golang-set v1.7.1 // indirect
 	github.com/eknkc/amber v0.0.0-20171010120322-cdade1c07385 // indirect
 	github.com/fatih/gomodifytags v0.0.0-20190517204355-df91c5bc7551 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
@@ -67,6 +68,7 @@ require (
 	github.com/yalp/jsonpath v0.0.0-20180802001716-5cc68e5049a0 // indirect
 	github.com/yudai/gojsondiff v1.0.0 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
+	github.com/zoumo/goset v0.0.0-20170825102307-6304720bd92f
 	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4 // indirect
 	golang.org/x/lint v0.0.0-20190409202823-959b441ac422 // indirect
 	golang.org/x/net v0.0.0-20190628185345-da137c7871d7 // indirect
