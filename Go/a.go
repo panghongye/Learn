@@ -1,13 +1,11 @@
-package main
-
-import "fmt"
+package m
 
 func dfs(grid [][]byte, i, j int) {
 	if i < 0 || j < 0 || i >= len(grid) || j >= len(grid[0]) {
 		return
 	}
 
-	if grid[i][j] == 1 {
+	if grid[i][j] == '1' || grid[i][j] == 1 {
 		grid[i][j] = 0
 		dfs(grid, i-1, j)
 		dfs(grid, i+1, j)
@@ -17,7 +15,7 @@ func dfs(grid [][]byte, i, j int) {
 
 }
 
-func numIslands(grid [][]byte) int {
+func NumIslands(grid [][]byte) int {
 	if l := len(grid); l == 0 {
 		return 0
 	}
@@ -28,21 +26,11 @@ func numIslands(grid [][]byte) int {
 	count := 0
 	for i := range grid {
 		for j := range grid[i] {
-			if grid[i][j] == 1 {
+			if grid[i][j] == '1' || grid[i][j] == 1 {
 				count++
 				dfs(grid, i, j)
 			}
 		}
 	}
 	return count
-}
-
-func main() {
-	a := [][]byte{
-		{11110},
-		{11010},
-		{8, 9, 10, 11},
-	}
-
-	fmt.Print(numIslands(a))
 }

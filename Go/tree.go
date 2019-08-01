@@ -1,4 +1,4 @@
-package main
+package m
 
 // import "fmt"
 
@@ -13,6 +13,4 @@ type Tree interface {
 	
 }
 
-func main() {
 
-}
