@@ -16,10 +16,7 @@ func dfs(grid [][]byte, i, j int) {
 }
 
 func NumIslands(grid [][]byte) int {
-	if l := len(grid); l == 0 {
-		return 0
-	}
-	if l := len(grid[0]); l == 0 {
+	if len(grid) == 0 || len(grid[0]) == 0 {
 		return 0
 	}
 
