@@ -30,11 +30,11 @@ require (
 	github.com/go-chi/chi v4.0.2+incompatible // indirect
 	github.com/go-delve/delve v1.2.0 // indirect
 	github.com/go-kit/kit v0.9.0 // indirect
+	github.com/go-xorm/xorm v0.7.6
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/golang/groupcache v0.0.0-20190702054246-869f871628b6 // indirect
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/google/pprof v0.0.0-20190723021845-34ac40c74b70 // indirect
-	github.com/gorilla/context v1.1.1 // indirect
 	github.com/gorilla/mux v1.7.3 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.9.5 // indirect
 	github.com/hashicorp/golang-lru v0.5.3 // indirect
@@ -43,6 +43,7 @@ require (
 	github.com/iris-contrib/formBinder v0.0.0-20190104093907-fbd5963f41e1 // indirect
 	github.com/iris-contrib/go.uuid v2.0.0+incompatible // indirect
 	github.com/iris-contrib/httpexpect v0.0.0-20180314041918-ebe99fcebbce // indirect
+	github.com/jinzhu/gorm v1.9.10
 	github.com/josharian/impl v0.0.0-20190715203526-f0d59e96e372 // indirect
 	github.com/json-iterator/go v1.1.7 // indirect
 	github.com/juju/errors v0.0.0-20190207033735-e65537c515d7 // indirect
@@ -61,6 +62,7 @@ require (
 	github.com/magiconair/properties v1.8.1 // indirect
 	github.com/mattn/go-colorable v0.1.2 // indirect
 	github.com/mattn/go-runewidth v0.0.4 // indirect
+	github.com/mattn/go-sqlite3 v1.10.0
 	github.com/mdempsky/gocode v0.0.0-20190203001940-7fb65232883f // indirect
 	github.com/microcosm-cc/bluemonday v1.0.2 // indirect
 	github.com/moul/http2curl v1.0.0 // indirect
