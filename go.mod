@@ -26,10 +26,11 @@ require (
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/flosch/pongo2 v0.0.0-20190707114632-bbf5a6c351f4 // indirect
 	github.com/gavv/monotime v0.0.0-20190418164738-30dba4353424 // indirect
-	github.com/gin-gonic/gin v1.4.0 // indirect
+	github.com/gin-gonic/gin v1.4.0
 	github.com/go-chi/chi v4.0.2+incompatible // indirect
 	github.com/go-delve/delve v1.2.0 // indirect
 	github.com/go-kit/kit v0.9.0 // indirect
+	github.com/go-sql-driver/mysql v1.4.1
 	github.com/go-xorm/xorm v0.7.6
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/golang/groupcache v0.0.0-20190702054246-869f871628b6 // indirect

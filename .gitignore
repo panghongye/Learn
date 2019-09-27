@@ -7,5 +7,3 @@ yarn-error.log
 dist
 !*.*
 .DS_Store
-go.mod
-go.sum

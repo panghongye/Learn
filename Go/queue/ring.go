@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 type MyCircularQueue struct {
 	Head   int
 	Tail   int
@@ -28,10 +26,9 @@ func (this *MyCircularQueue) EnQueue(value int) bool {
 	}
 	if this.Length > 0 {
 		this.Tail = (this.Tail + 1) % this.Max
-		fmt.Println(this.Tail, this.Head, this.Val)
 	}
 	this.Val[this.Tail] = value
-	this.Length += 1
+	this.Length++
 	return true
 }
 
@@ -44,7 +41,7 @@ func (this *MyCircularQueue) DeQueue() bool {
 		this.Tail = (this.Tail + 1) % this.Max
 	}
 	this.Head = (this.Head + 1) % this.Max
-	this.Length -= 1
+	this.Length--
 	return true
 }
 
@@ -78,12 +75,4 @@ func (this *MyCircularQueue) IsFull() bool {
 		return true
 	}
 	return false
-}
-
-func main() {
-	t := Constructor(10)
-	t.EnQueue(0)
-	t.EnQueue(1)
-	t.EnQueue(2)
-	t.EnQueue(3)
 }

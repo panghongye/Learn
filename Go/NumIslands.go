@@ -12,7 +12,6 @@ func dfs(grid [][]byte, i, j int) {
 		dfs(grid, i, j-1)
 		dfs(grid, i, j+1)
 	}
-
 }
 
 func NumIslands(grid [][]byte) int {
