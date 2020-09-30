@@ -1,6 +1,4 @@
-package main
-
-import "fmt"
+package tree
 
 type BSTInterface interface {
 	Insert(int)
@@ -61,26 +59,26 @@ func removeNode(node *node, val int) *node {
 	if val > node.val { //{6}
 		node.right = removeNode(node.right, val) //{7}
 		return node                              //{8}
-	} else { //val等于node.val
-		//第一种情况——一个叶节点
-		if node.left == nil && node.right == nil { //{9}
-			node = nil  //{10}
-			return node //{11}
-		}
-		//第二种情况——一个只有一个子节点的节点
-		if node.left == nil { //{12}
-			node = node.right //{13}
-			return node       //{14}
-		} else if node.right == nil { //{15}
-			node = node.left //{16}
-			return node      //{17}
-		}
-		//第三种情况——一个有两个子节点的节点
-		var aux = mostL(node.right)                  //{18}
-		node.val = aux.val                           //{19}
-		node.right = removeNode(node.right, aux.val) //{20}
-		return node                                  //{21}
 	}
+	//val等于node.val
+	//第一种情况——一个叶节点
+	if node.left == nil && node.right == nil { //{9}
+		node = nil  //{10}
+		return node //{11}
+	}
+	//第二种情况——一个只有一个子节点的节点
+	if node.left == nil { //{12}
+		node = node.right //{13}
+		return node       //{14}
+	} else if node.right == nil { //{15}
+		node = node.left //{16}
+		return node      //{17}
+	}
+	//第三种情况——一个有两个子节点的节点
+	var aux = mostL(node.right)                  //{18}
+	node.val = aux.val                           //{19}
+	node.right = removeNode(node.right, aux.val) //{20}
+	return node                                  //{21}
 }
 
 func search(val int, current *node) *node {
@@ -166,21 +164,4 @@ func mostR(n *node) *node {
 		return n
 	}
 	return mostR(n.right)
-}
-
-func main() {
-	t, t1 := BST{}, BST{}
-	t.Insert(9, 3, 6, 4, 7, 1, 5, 2, 8)
-	t1.Insert(9, 3, 6, 4, 7, 1, 5, 2, 8)
-
-	t.Remove(1)
-
-	t.Inorder(func(val int) {
-		fmt.Print(val, " ")
-	})
-	fmt.Println()
-	t1.Inorder(func(val int) {
-		fmt.Print(val, " ")
-	})
-
 }
