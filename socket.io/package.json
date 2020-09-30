@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "my first socket.io app",
   "scripts": {
-    "dev": "node-dev -r ts-node/register --inspect index.ts"
+    "dev": "node-dev -r ts-node/register --inspect index.ts",
+    "d": "node  --inspect index.js"
   },
   "dependencies": {
     "express": "^4.17.1",
