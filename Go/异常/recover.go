@@ -25,6 +25,6 @@ func fullName(firstName *string, lastName *string) {
 func main() {
 	defer fmt.Println("deferred call in main")
 	firstName := "foo"
-	fullName(&firstName, nil)
+	fullName(&firstName, &firstName)
 	fmt.Println("returned normally from main")
 }
