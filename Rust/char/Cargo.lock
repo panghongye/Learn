@@ -117,6 +117,23 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
+name = "chat"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "env_logger",
+ "futures",
+ "lazy_static",
+ "log",
+ "regex",
+ "serde",
+ "serde_json",
+ "tokio",
+ "uuid",
+ "warp",
+]
+
+[[package]]
 name = "chrono"
 version = "0.4.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -874,23 +891,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4a83fa3702a688b9359eccba92d153ac33fd2e8462f9e0e3fdf155239ea7792e"
 dependencies = [
  "winapi 0.3.8",
-]
-
-[[package]]
-name = "rusty-chat"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "env_logger",
- "futures",
- "lazy_static",
- "log",
- "regex",
- "serde",
- "serde_json",
- "tokio",
- "uuid",
- "warp",
 ]
 
 [[package]]
