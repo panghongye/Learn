@@ -1,5 +1,5 @@
 fn main() {
-     extern crate char;
-    // char::main();
-    // println!(char);
+    //  extern crate rusty-chat;
+    //  rusty-chat::main();
+    // println!(rusty-chat);
 }
