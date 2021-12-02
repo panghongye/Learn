@@ -1,27 +1,16 @@
-use std::collections::HashMap;
+use std::net::{SocketAddrV4, Ipv4Addr, TcpListener};
+use std::io::{Read, Error};
 
-#[derive(Debug)]
-struct User {
-    id: String,
-    name: String,
-    email: String,
-}
-#[derive(Debug)]
-struct Room {
-    id: String,
-    name: String,
-    users: HashMap<String, User>,
-}
-
-#[derive(Debug)]
-struct Server {
-    rooms: HashMap<String, Room>,
-}
-
-fn main() {
-    let server = Server {
-        rooms: HashMap::new(),
-    };
-
-    println!(">>>>>{:?}", server.rooms);
+fn main() -> Result<(), Error> {
+    let loopback = Ipv4Addr::new(127, 0, 0, 1);
+    let socket = SocketAddrV4::new(loopback, 90);
+    let listener = TcpListener::bind(socket)?;
+    let port = listener.local_addr()?;
+    println!("Listening on {}, access this port to end the program", port);
+    let (mut tcp_stream, addr) = listener.accept()?; // 阻塞，直到被请求
+    println!("Connection received! {:?} is sending data.", addr);
+    let mut input = String::new();
+    let _ = tcp_stream.read_to_string(&mut input)?;
+    println!("{:?} says {}", addr, input);
+    Ok(())
 }

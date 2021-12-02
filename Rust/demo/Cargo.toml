@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 rusty-chat = { path = "../rusty-chat" }
+reqwest = "0.11.6"
