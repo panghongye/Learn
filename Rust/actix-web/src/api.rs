@@ -1,17 +1,6 @@
 use super::model::User;
 use actix_web::{error, web, Error, HttpResponse};
 use futures::StreamExt;
-// extern crate rusqlite;
-
-// pub struct Sql {
-//     conn: Result<Connection>,
-// }
-
-// impl Sql {
-//     pub async fn init(&self) {
-//         self.conn = Connection::open_in_memory()?;
-//     }
-// }
 
 pub async fn user_register(mut payload: web::Payload) -> Result<HttpResponse, Error> {
     let mut body = web::BytesMut::new();
