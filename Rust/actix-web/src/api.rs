@@ -1,7 +1,7 @@
 use super::model::User;
 use actix_web::{error, web, Error, HttpResponse};
 use futures::StreamExt;
-extern crate rusqlite;
+// extern crate rusqlite;
 
 // pub struct Sql {
 //     conn: Result<Connection>,
