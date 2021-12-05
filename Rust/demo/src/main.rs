@@ -1,43 +1,22 @@
-use rusqlite::{params, Connection, Result};
+// https://github.com/launchbadge/sqlx
 
-#[derive(Debug)]
-struct Person {
-    id: i32,
-    name: String,
-    data: Option<Vec<u8>>,
-}
+async fn main() -> Result<(), sqlx::Error> {
+    // Create a connection pool
+    //  for MySQL, use MySqlPoolOptions::new()
+    //  for SQLite, use SqlitePoolOptions::new()
+    //  etc.
+    let pool = PgPoolOptions::new()
+        .max_connections(5)
+        .connect("postgres://postgres:password@localhost/test")
+        .await?;
 
-fn main() -> Result<()> {
-    let conn = Connection::open("test.db")?;
-    conn.execute(
-        "CREATE TABLE person (
-            id              INTEGER PRIMARY KEY,
-            name            TEXT NOT NULL,
-            data            BLOB
-        )",
-        [],
-    )?;
-    let me = Person {
-        id: 0,
-        name: "Steven".to_string(),
-        data: None,
-    };
-    conn.execute(
-        "INSERT INTO person (name, data) VALUES (?1, ?2)",
-        params![me.name, me.data],
-    )?;
+    // Make a simple query to return the given parameter (use a question mark `?` instead of `$1` for MySQL)
+    let row: (i64,) = sqlx::query_as("SELECT $1")
+        .bind(150_i64)
+        .fetch_one(&pool)
+        .await?;
 
-    let mut stmt = conn.prepare("SELECT id, name, data FROM person")?;
-    let person_iter = stmt.query_map([], |row| {
-        Ok(Person {
-            id: row.get(0)?,
-            name: row.get(1)?,
-            data: row.get(2)?,
-        })
-    })?;
+    assert_eq!(row.0, 150);
 
-    for person in person_iter {
-        println!("Found person {:?}", person.unwrap());
-    }
     Ok(())
 }
