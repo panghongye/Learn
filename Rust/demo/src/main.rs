@@ -1,16 +1,43 @@
-use std::net::{SocketAddrV4, Ipv4Addr, TcpListener};
-use std::io::{Read, Error};
+use rusqlite::{params, Connection, Result};
 
-fn main() -> Result<(), Error> {
-    let loopback = Ipv4Addr::new(127, 0, 0, 1);
-    let socket = SocketAddrV4::new(loopback, 90);
-    let listener = TcpListener::bind(socket)?;
-    let port = listener.local_addr()?;
-    println!("Listening on {}, access this port to end the program", port);
-    let (mut tcp_stream, addr) = listener.accept()?; // 阻塞，直到被请求
-    println!("Connection received! {:?} is sending data.", addr);
-    let mut input = String::new();
-    let _ = tcp_stream.read_to_string(&mut input)?;
-    println!("{:?} says {}", addr, input);
+#[derive(Debug)]
+struct Person {
+    id: i32,
+    name: String,
+    data: Option<Vec<u8>>,
+}
+
+fn main() -> Result<()> {
+    let conn = Connection::open_in_memory()?;
+    conn.execute(
+        "CREATE TABLE person (
+            id              INTEGER PRIMARY KEY,
+            name            TEXT NOT NULL,
+            data            BLOB
+        )",
+        [],
+    )?;
+    let me = Person {
+        id: 0,
+        name: "Steven".to_string(),
+        data: None,
+    };
+    conn.execute(
+        "INSERT INTO person (name, data) VALUES (?1, ?2)",
+        params![me.name, me.data],
+    )?;
+
+    let mut stmt = conn.prepare("SELECT id, name, data FROM person")?;
+    let person_iter = stmt.query_map([], |row| {
+        Ok(Person {
+            id: row.get(0)?,
+            name: row.get(1)?,
+            data: row.get(2)?,
+        })
+    })?;
+
+    for person in person_iter {
+        println!("Found person {:?}", person.unwrap());
+    }
     Ok(())
 }
