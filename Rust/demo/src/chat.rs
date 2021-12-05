@@ -18,7 +18,7 @@ struct Server {
     rooms: HashMap<String, Room>,
 }
 
-fn test() {
+fn main() {
     let server = Server {
         rooms: HashMap::new(),
     };
