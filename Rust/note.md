@@ -1,0 +1,1 @@
+https://github.com/jetli/rust-realworld-example-app/tree/master/crates

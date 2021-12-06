@@ -1,17 +1,18 @@
 use super::model::User;
 use actix_web::{error, web, Error, HttpResponse};
 use futures::StreamExt;
-use sqlx::{mysql::MySqlPoolOptions, pool::PoolOptions, MySql, Pool};
+use sqlx::mysql::MySqlPoolOptions;
 
-struct MY_SQL {}
+struct MySQL {
+    pool: sqlx::Pool<sqlx::MySqlConnection>,
+}
 
-impl MY_SQL {
+impl MySQL {
     async fn init(&self) {
         let pool = MySqlPoolOptions::new()
             .max_connections(5)
             .connect("mysql://root:rootroot@localhost/test")
             .await;
-
     }
 }
 

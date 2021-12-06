@@ -1,19 +1,18 @@
 // https://github.com/launchbadge/sqlx
-use sqlx::mysql::MySqlPoolOptions;
 
-// #[async_std::main]
-#[tokio::main]
-// #[actix_web::main]
-async fn main() -> Result<(), sqlx::Error> {
-    let pool = MySqlPoolOptions::new()
-        .max_connections(5)
-        .connect("mysql://root:rootroot@localhost/test")
-        .await?;
+use anyhow::Result;
+use async_std::task;
+use async_trait::async_trait;
 
-    let row: (i64,) = sqlx::query_as("SELECT ?")
-        .bind(150_i64)
-        .fetch_one(&pool)
-        .await?;
-    assert_eq!(row.0, 150);
-    Ok(())
+pub struct MySQL {
+    pool: sqlx::Pool<sqlx::MySqlConnection>,
+}
+
+impl MySQL {
+    pub fn new() -> Self {
+        let database_url = std::env::var("DATABASE_URL").expect("DATABASE_URL is required");
+        let pool = task::block_on(sqlx::MySqlPool::new(database_url.as_str()))
+            .expect("Failed to create pool");
+        Self { pool }
+    }
 }
