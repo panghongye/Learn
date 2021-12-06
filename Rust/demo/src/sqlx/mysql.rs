@@ -1,8 +1,6 @@
 // https://github.com/launchbadge/sqlx
 
-use anyhow::Result;
 use async_std::task;
-use async_trait::async_trait;
 
 pub struct MySQL {
     pool: sqlx::Pool<sqlx::MySqlConnection>,

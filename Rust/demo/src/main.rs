@@ -12,25 +12,6 @@ impl MySQL {
     }
 }
 
-// #[async_trait]
-// impl MySQLTrait for MySQL {
-//     async fn get_by_id(&self, user_id: u64) -> Result<User, UserError> {
-//         let row = sqlx::query!(
-//             "SELECT id, username FROM conduit_users WHERE id = ?",
-//             user_id
-//         )
-//         .fetch_one(&mut &self.pool)
-//         .await;
 
-//         if let Ok(row) = row {
-//             Ok(User {
-//                 id: row.id,
-//                 username: row.username,
-//             })
-//         } else {
-//             Err(UserError::DoesNotExists)
-//         }
-//     }
-// }
 
 fn main() {}

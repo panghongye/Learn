@@ -1,7 +1,8 @@
 use super::model::User;
 use actix_web::{error, web, Error, HttpResponse};
 use futures::StreamExt;
-use sqlx::mysql::MySqlPoolOptions;
+use sqlx::{MySql, MySqlPool, Pool};
+
 
 pub async fn user_register(mut payload: web::Payload) -> Result<HttpResponse, Error> {
     let mut body = web::BytesMut::new();
@@ -29,6 +30,10 @@ async fn no_null(mut payload: web::Payload) -> Result<User, Error> {
         body.extend_from_slice(&chunk);
     }
     Ok(serde_json::from_slice::<User>(&body)?)
+}
+
+pub async fn init() {
+    let pool = MySqlPool::connect("mysql://user:pass@host/database").await;
 }
 
 pub mod test {
