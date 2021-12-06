@@ -1,2 +1,0 @@
-// https://diesel.rs/
-

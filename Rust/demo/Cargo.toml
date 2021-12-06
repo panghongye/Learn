@@ -13,8 +13,9 @@ rusqlite="0.26"
 tokio="1.14"
 serde="1.0"
 mongodb="2.0"
-diesel = { version = "1.4", features = ["postgres","mysql","sqlite"] }
+diesel = { version = "1.4", features = ["mysql"] }
 dotenv = "0.15"
-   
+
+sqlx = { version = "0.5", features = [ "runtime-actix-native-tls" , "mysql" ] }
   
     
