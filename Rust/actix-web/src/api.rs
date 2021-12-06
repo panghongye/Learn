@@ -3,19 +3,6 @@ use actix_web::{error, web, Error, HttpResponse};
 use futures::StreamExt;
 use sqlx::mysql::MySqlPoolOptions;
 
-struct MySQL {
-    pool: sqlx::Pool<sqlx::MySqlConnection>,
-}
-
-impl MySQL {
-    async fn init(&self) {
-        let pool = MySqlPoolOptions::new()
-            .max_connections(5)
-            .connect("mysql://root:rootroot@localhost/test")
-            .await;
-    }
-}
-
 pub async fn user_register(mut payload: web::Payload) -> Result<HttpResponse, Error> {
     let mut body = web::BytesMut::new();
     while let Some(chunk) = payload.next().await {
