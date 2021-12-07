@@ -10,7 +10,5 @@ mod model;
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build()
-        .attach(api::stage())
-        .attach(json::stage())
+    rocket::build().attach(api::stage()).attach(json::stage())
 }
