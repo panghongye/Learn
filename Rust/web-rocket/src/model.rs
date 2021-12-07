@@ -6,9 +6,9 @@ use rocket::serde::{
 #[derive(Debug, Default, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
 pub struct Res {
-    code: u8,
-    // data: json,
-    msg: String,
+    pub code: u8,
+    // pub data: json,
+    pub msg: String,
 }
 
 #[derive(Debug, Default, Serialize, Deserialize)]

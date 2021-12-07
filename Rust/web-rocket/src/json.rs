@@ -1,9 +1,9 @@
 use std::borrow::Cow;
 
-use rocket::State;
+use rocket::serde::json::{json, Json, Value};
+use rocket::serde::{Deserialize, Serialize};
 use rocket::tokio::sync::Mutex;
-use rocket::serde::json::{Json, Value, json};
-use rocket::serde::{Serialize, Deserialize};
+use rocket::State;
 
 // The type to represent the ID of a message.
 type Id = usize;
@@ -16,7 +16,7 @@ type Messages<'r> = &'r State<MessageList>;
 #[serde(crate = "rocket::serde")]
 struct Message<'r> {
     id: Option<Id>,
-    message: Cow<'r, str>
+    message: Cow<'r, str>,
 }
 
 #[post("/", format = "json", data = "<message>")]
@@ -34,7 +34,7 @@ async fn update(id: Id, message: Json<Message<'_>>, list: Messages<'_>) -> Optio
             *existing = message.message.to_string();
             Some(json!({ "status": "ok" }))
         }
-        None => None
+        None => None,
     }
 }
 
@@ -58,7 +58,8 @@ fn not_found() -> Value {
 
 pub fn stage() -> rocket::fairing::AdHoc {
     rocket::fairing::AdHoc::on_ignite("JSON", |rocket| async {
-        rocket.mount("/json", routes![new, update, get])
+        rocket
+            .mount("/json", routes![new, update, get])
             .register("/json", catchers![not_found])
             .manage(MessageList::new(vec![]))
     })
