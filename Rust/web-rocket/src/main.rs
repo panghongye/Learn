@@ -1,30 +1,16 @@
 #[macro_use]
 extern crate rocket;
-use rocket::http::CookieJar;
 
-#[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
-}
+mod json;
+#[cfg(test)]
+mod tests;
 
-#[get("/<name>")]
-fn name(name: &str) -> String {
-    format!("route: /{}!", name)
-}
-
-#[get("/query?<name>")]
-fn query(name: &str) -> String {
-    format!("query: name= {}!", name)
-}
-
-#[get("/cookie")]
-fn cookie(cookies: &CookieJar<'_>) -> Option<String> {
-    cookies
-        .get("message")
-        .map(|crumb| format!("Message: {}", crumb.value()))
-}
+mod api;
+mod model;
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index, name, cookie, query])
+    rocket::build()
+        .attach(api::stage())
+        .attach(json::stage())
 }
