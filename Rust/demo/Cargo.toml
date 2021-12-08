@@ -8,15 +8,13 @@ edition = "2021"
 [dependencies]
 rusty-chat = { path = "../rusty-chat" }
 reqwest = "0.11"
-postgres="0.19"
 rusqlite="0.26"
 tokio="1.14"
 serde="1.0"
 mongodb="2.0"
-diesel = { version = "1.4", features = ["mysql"] }
+# diesel = { version = "1.4", features = ["mysql"] }
+# sqlx = { version = "0.5", features = ["mysql", "chrono","runtime-actix-native-tls"] }
 dotenv = "0.15"
 
-# sqlx = { version = "0.2", features = ["mysql", "chrono"] }
-sqlx = { version = "0.5", features = ["mysql", "chrono","runtime-actix-native-tls"] }
 async-std = { version = "1.5" }
 chrono = { version = "0.4", features = ["serde"] }
