@@ -14,6 +14,6 @@ pub struct Res {
 #[derive(Debug, Default, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
 pub struct User {
-    pub id: u8,
+    pub id: Option<u32>,
     pub name: String,
 }

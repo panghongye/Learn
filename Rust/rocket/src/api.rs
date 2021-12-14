@@ -9,6 +9,9 @@ pub fn stage() -> rocket::fairing::AdHoc {
 
 #[post("/user_register", data = "<data>")]
 async fn user_register(data: Json<User>) -> Value {
-    json!({ "code":1, "msg":"ok"})
+    json!({ "code":0, "msg":"ok","data":{
+        "id":data.id,
+        "name":data.name,
+    }})
 }
 // fn user_login(){}

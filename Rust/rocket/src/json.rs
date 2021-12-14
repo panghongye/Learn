@@ -41,7 +41,6 @@ async fn update(id: Id, message: Json<Message<'_>>, list: Messages<'_>) -> Optio
 #[get("/<id>", format = "json")]
 async fn get(id: Id, list: Messages<'_>) -> Option<Json<Message<'_>>> {
     let list = list.lock().await;
-
     Some(Json(Message {
         id: Some(id),
         message: list.get(id)?.to_string().into(),
@@ -52,7 +51,7 @@ async fn get(id: Id, list: Messages<'_>) -> Option<Json<Message<'_>>> {
 fn not_found() -> Value {
     json!({
         "status": "error",
-        "reason": "Resource was not found."
+        "reason": "Resource was not found"
     })
 }
 
