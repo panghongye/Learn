@@ -7,10 +7,6 @@ enum List<T> {
     Nil,
 }
 
-
-
-
-
 // 可以为 enum 定义方法
 impl<T> List<T> {
     // 创建一个空的 List 实例
