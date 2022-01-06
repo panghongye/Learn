@@ -1,9 +1,24 @@
 use super::model::User;
-use rocket::serde::json::{json, Json, Value};
+use rocket::{serde::json::{json, Json, Value}, fairing::{self, AdHoc}, Build, Rocket};
+use sqlx::SqlitePool;
+ 
 
-pub fn stage() -> rocket::fairing::AdHoc {
+async fn db(rocket: Rocket<Build>) -> fairing::Result {
+    match SqlitePool::connect("./chronology.db").await {
+        Ok(pool) => Ok(rocket.manage(pool)),
+        Err(e) => {
+            rocket::error!("Failed to connect to database: {}", e);
+            Err(rocket)
+        }
+    }
+}
+
+
+
+pub fn stage() -> AdHoc {
     rocket::fairing::AdHoc::on_ignite("API", |rocket| async {
-        rocket.mount("/", routes![user_register])
+        rocket.attach(AdHoc::try_on_ignite("SQLx Migrations", db))
+        .mount("/", routes![user_register])
     })
 }
 
