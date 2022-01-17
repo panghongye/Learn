@@ -127,7 +127,7 @@ fn main() {
 //------------------------------Insert DAta into database-------------------------
 fn insert(student: Student) -> JsonValue {
     let pool =
-        Pool::new("mysql://user:password@localhost:3306/database_name")
+        Pool::new("mysql://root:rootroot@localhost:3306/test")
             .unwrap();
 
     let mut conn = pool.get_conn().unwrap();
@@ -155,7 +155,7 @@ fn insert(student: Student) -> JsonValue {
 //---------------------------------get data from database----------------------
 fn fetch() -> JsonValue {
     let pool =
-        Pool::new("mysql://user:password@localhost:3306/database_name")
+        Pool::new("mysql://root:rootroot@localhost:3306/test")
             .unwrap();
 
     let mut conn = pool.get_conn().unwrap();
@@ -177,7 +177,7 @@ fn fetch() -> JsonValue {
 //--------------------------------update data in database----------------------
 fn update(student: Student) {
     let pool =
-        Pool::new("mysql://user:password@localhost:3306/database_name")
+        Pool::new("mysql://root:rootroot@localhost:3306/test")
             .unwrap();
     let mut conn = pool.get_conn().unwrap();
 
@@ -207,7 +207,7 @@ fn update(student: Student) {
 //--------------------------------delete data from database----------------------
 fn delete(id1: i32) {
     let pool =
-        Pool::new("mysql://user:password@localhost:3306/database_name")
+        Pool::new("mysql://root:rootroot@localhost:3306/test")
             .unwrap();
 
     let mut conn = pool.get_conn().unwrap();
@@ -223,4 +223,3 @@ fn delete(id1: i32) {
     println!("deleted successfully {:?}", id1);
 }
 
-//mysql://root:password@localhost:3306/Rust_testing
