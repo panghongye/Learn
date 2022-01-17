@@ -35,7 +35,7 @@ use rocket_cors::{
 
 use rocket::State; // tells about server condition
 
-type ID = usize; // declaring globally
+type ID = u32; // declaring globally
 #[derive(Debug, PartialEq, Eq, Deserialize)] // data in the form of bytes, deserialization
 struct Message {
     id: ID,
