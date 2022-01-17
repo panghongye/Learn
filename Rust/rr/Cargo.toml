@@ -1,8 +1,0 @@
-[workspace]
-members = [
-    "chronology-main",
-    "RocketSQLxAccesscontrol-master",
-    "Rust_Rest_api_with_MySql-master",
-    "sqlx-master",
-    "todo_rotomy-master",
-]
