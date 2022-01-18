@@ -1,0 +1,1 @@
+export default ()=><div>2333</div>
