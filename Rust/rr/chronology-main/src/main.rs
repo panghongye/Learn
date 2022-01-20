@@ -3,17 +3,18 @@ use rocket::{
     fairing::{self, AdHoc},
     Build, Rocket,
 };
-use sqlx::mysql::MySqlPool;
+use sqlx::SqlitePool;
 
 #[rocket::launch]
 fn rocket() -> _ {
     rocket::build()
-        .attach(AdHoc::try_on_ignite("test", db))
+        .attach(AdHoc::try_on_ignite("Database", db))
         .mount("/", web::routes())
 }
 
 async fn db(rocket: Rocket<Build>) -> fairing::Result {
-    match MySqlPool::connect(&env::var("DATABASE_URL")?).await? {
+    // match SqlitePool::connect("sqlite:chronology.db").await {
+    match SqlitePool::connect("sqlite::memory").await {
         Ok(pool) => Ok(rocket.manage(pool)),
         Err(e) => {
             rocket::error!("Failed to connect to database: {}", e);

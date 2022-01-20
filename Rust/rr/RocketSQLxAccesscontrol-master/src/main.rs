@@ -23,7 +23,7 @@ pub struct User {
 pub struct Input {
     username: String,
     student_id: String,
-    pos: i32,
+    pos: String,
     time: String,
 }
 

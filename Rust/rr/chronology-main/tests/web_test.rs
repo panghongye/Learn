@@ -3,11 +3,10 @@ use rocket::{
     http::{ContentType, Status},
     local::asynchronous::Client,
 };
-use sqlx::{Result,mysql::MySqlPool};
-
+use sqlx::SqlitePool;
 
 async fn setup() -> Client {
-    let pool = MySqlPool::connect("sqlite::memory:").await.unwrap();
+    let pool = SqlitePool::connect("sqlite::memory:").await.unwrap();
     sqlx::migrate!().run(&pool).await.unwrap();
 
     let rocket = rocket::build().mount("/", web::routes()).manage(pool);

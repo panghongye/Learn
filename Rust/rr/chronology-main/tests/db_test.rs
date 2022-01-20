@@ -1,10 +1,8 @@
 use chronology::{self, Category};
-use sqlx::{Result,mysql::MySqlPool};
+use sqlx::{Result, SqlitePool};
 
-
-
-async fn setup() -> Result<MySqlPool> {
-    let pool = MySqlPool::connect("sqlite::memory:").await?;
+async fn setup() -> Result<SqlitePool> {
+    let pool = SqlitePool::connect("sqlite::memory:").await?;
     sqlx::migrate!().run(&pool).await?;
     Ok(pool)
 }
