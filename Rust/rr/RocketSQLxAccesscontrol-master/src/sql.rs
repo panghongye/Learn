@@ -14,11 +14,7 @@ pub async fn add_data(data: Input) -> anyhow::Result<()> {
 
 pub async fn list_data() -> anyhow::Result<(Vec<crate::Input>)> {
     let pool = SqlitePool::connect(&env::var("DATABASE_URL")?).await?;
-    let result = sqlx::query!(r#"
-        SELECT name, student_id, pos, time
-        FROM student
-        ORDER BY name
-    "#).fetch_all(&pool).await?;
+    let result = sqlx::query!(r#"SELECT name, student_id, pos, timeFROM studentORDER BY name"#).fetch_all(&pool).await?;
     let mut ret: Vec<crate::Input> = Vec::new();
     for i in result {
         ret.push(

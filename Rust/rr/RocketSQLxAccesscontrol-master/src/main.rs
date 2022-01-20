@@ -16,7 +16,7 @@ use sqlx::SqlitePool;
 pub struct User {
     username: String,
     student_id: String,
-    pos: i32,
+    pos: String,
 }
 
 #[derive(Serialize, Deserialize)]
