@@ -28,12 +28,7 @@ async fn inside(user: Json<User>) -> Status {
     let student_id = user.student_id.clone();
     let pos = user.pos.clone();
     let time= Local::now().to_string();
-    sql::add_data(Input {
-        username,
-        student_id,
-        pos,
-        time,
-    }).await;
+    sql::add_data(Input {username,student_id,pos,time,}).await;
     Status::Accepted
 }
 
