@@ -6,12 +6,7 @@ extern crate serde;
 use serde::{Serialize, Deserialize};
 use chrono::prelude::*;
 use rocket::serde::json::Json;
-use rocket::form::error::ErrorKind::Utf8;
 use rocket::http::Status;
-use std::env;
-use sqlx::SqlitePool;
-
-
 #[derive(Serialize, Deserialize)]
 pub struct User {
     username: String,
