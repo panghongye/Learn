@@ -18,10 +18,10 @@ pub async fn list_data() -> anyhow::Result<Vec<crate::Input>> {
     for i in result {
         ret.push(
             crate::Input {
-                username: i.name,
-                student_id: i.student_id,
-                pos: i.pos,
-                time: i.time,
+                username: i.name.clone(),
+                student_id: i.student_id.clone(),
+                pos: i.pos.clone(),
+                time: i.time.clone(),
             }
         );
     }
