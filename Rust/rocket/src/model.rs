@@ -1,13 +1,10 @@
-use rocket::{serde::{
-    // json::{Json, Value},
-    Deserialize, Serialize,
-}, figment::value::Map};
+use rocket::{serde::{Deserialize, Serialize,json::{ Value }}};
 
-#[derive(Debug, Default, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
 pub struct Res {
     pub code: u8,
-    pub data: Map<String, String>,
+    pub data: Value,
     pub msg: String,
 }
 
@@ -15,5 +12,16 @@ pub struct Res {
 #[serde(crate = "rocket::serde")]
 pub struct User {
     pub id: Option<u32>,
-    pub name: String,
+    pub name: Option<String>,
+    pub email :Option<String>,
+    pub password :Option<String>,
 }
+
+#[derive(Debug, Default, Serialize, Deserialize)]
+#[serde(crate = "rocket::serde")]
+pub struct RegisterUser {
+    pub name: String,
+    pub email :String,
+    pub password :String,
+}
+

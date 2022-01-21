@@ -1,10 +1,9 @@
-use super::model::User;
-use rocket::{serde::json::{json, Json, Value}, fairing::{self, AdHoc}, Build, Rocket};
-use sqlx::SqlitePool;
- 
+use rocket::{serde::json::{ Json, Value, serde_json::json}, fairing::{self, AdHoc}, Build, Rocket};
+use sqlx::MySqlPool;
+use super::model::{User,RegisterUser};
 
 async fn db(rocket: Rocket<Build>) -> fairing::Result {
-    match SqlitePool::connect("./chronology.db").await {
+    match MySqlPool::connect("mysql://root:rootroot@localhost:3306/test").await {
         Ok(pool) => Ok(rocket.manage(pool)),
         Err(e) => {
             rocket::error!("Failed to connect to database: {}", e);
@@ -12,7 +11,6 @@ async fn db(rocket: Rocket<Build>) -> fairing::Result {
         }
     }
 }
-
 
 
 pub fn stage() -> AdHoc {
@@ -23,10 +21,11 @@ pub fn stage() -> AdHoc {
 }
 
 #[post("/user_register", data = "<data>")]
-async fn user_register(data: Json<User>) -> Value {
+async fn user_register(data: Json<RegisterUser>) -> Value {
+    
     json!({ "code":0, "msg":"ok","data":{
-        "id":data.id,
-        "name":data.name,
+        // "id":data.id,
+        // "name":data.name,
     }})
 }
 // fn user_login(){}

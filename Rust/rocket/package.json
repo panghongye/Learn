@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "run": "cargo watch -x run",
+        "dev": "cargo watch -x run",
         "build": "cargo watch -x build"
     }
 }

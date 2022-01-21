@@ -7,15 +7,15 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'web-rocket'",
+            "name": "Debug executable 'web_'",
             "cargo": {
                 "args": [
                     "build",
-                    "--bin=web-rocket",
-                    "--package=web-rocket"
+                    "--bin=web_",
+                    "--package=web_"
                 ],
                 "filter": {
-                    "name": "web-rocket",
+                    "name": "web_",
                     "kind": "bin"
                 }
             },
@@ -25,16 +25,16 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug unit tests in executable 'web-rocket'",
+            "name": "Debug unit tests in executable 'web_'",
             "cargo": {
                 "args": [
                     "test",
                     "--no-run",
-                    "--bin=web-rocket",
-                    "--package=web-rocket"
+                    "--bin=web_",
+                    "--package=web_"
                 ],
                 "filter": {
-                    "name": "web-rocket",
+                    "name": "web_",
                     "kind": "bin"
                 }
             },
