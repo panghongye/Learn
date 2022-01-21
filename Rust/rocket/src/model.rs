@@ -1,13 +1,13 @@
-use rocket::serde::{
-    json::{Json, Value},
+use rocket::{serde::{
+    // json::{Json, Value},
     Deserialize, Serialize,
-};
+}, figment::value::Map};
 
 #[derive(Debug, Default, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
 pub struct Res {
     pub code: u8,
-    // pub data: json,
+    pub data: Map<String, String>,
     pub msg: String,
 }
 
