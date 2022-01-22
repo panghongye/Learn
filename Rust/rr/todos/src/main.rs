@@ -18,6 +18,7 @@ enum Command {
 
 const DATABASE_URL: &str="mysql://root:rootroot@localhost:3306/test";
 
+
 #[async_std::main]
 #[paw::main]
 async fn main(args: Args) -> anyhow::Result<()> {
