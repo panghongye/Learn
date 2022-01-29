@@ -1,1 +1,6 @@
-{"scripts": {"dev":"cargo watch -x run"}}
+{
+    "scripts": {
+        "dev": "cargo watch -x run",
+        "build": "cargo watch -x build"
+    }
+}

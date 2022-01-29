@@ -3,10 +3,10 @@ name = "web_"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-
 [dependencies]
 rocket = {version = "0.5.0-rc.1",features=["json", "msgpack", "uuid"]}
-sqlx="0.1.0"
-rocket_sync_db_pools="0.1.0-rc.1"
+sqlx = { version = "0.5", features = [ "runtime-tokio-rustls", "sqlite","mysql", "macros", "chrono" ] }
+
+# rocket_sync_db_pools="0.1.0-rc.1"
+# rocket_db_pools="0.1.0-rc.1"
+

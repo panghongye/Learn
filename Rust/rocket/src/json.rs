@@ -1,13 +1,12 @@
 use std::borrow::Cow;
-
-use rocket::serde::json::{json, Json, Value};
+use rocket::serde::json::{ Json, Value};
+use rocket::serde::json::serde_json::json;
 use rocket::serde::{Deserialize, Serialize};
 use rocket::tokio::sync::Mutex;
 use rocket::State;
 
 // The type to represent the ID of a message.
 type Id = usize;
-
 // We're going to store all of the messages here. No need for a DB.
 type MessageList = Mutex<Vec<String>>;
 type Messages<'r> = &'r State<MessageList>;
@@ -59,7 +58,7 @@ pub fn stage() -> rocket::fairing::AdHoc {
     rocket::fairing::AdHoc::on_ignite("JSON", |rocket| async {
         rocket
             .mount("/json", routes![new, update, get])
-            .register("/json", catchers![not_found])
             .manage(MessageList::new(vec![]))
+            .register("/json", catchers![not_found])
     })
 }

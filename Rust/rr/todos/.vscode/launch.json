@@ -7,15 +7,15 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'web_'",
+            "name": "Debug executable 'sqlx-example-mysql-todos'",
             "cargo": {
                 "args": [
                     "build",
-                    "--bin=web_",
-                    "--package=web_"
+                    "--bin=sqlx-example-mysql-todos",
+                    "--package=sqlx-example-mysql-todos"
                 ],
                 "filter": {
-                    "name": "web_",
+                    "name": "sqlx-example-mysql-todos",
                     "kind": "bin"
                 }
             },
@@ -25,16 +25,16 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug unit tests in executable 'web_'",
+            "name": "Debug unit tests in executable 'sqlx-example-mysql-todos'",
             "cargo": {
                 "args": [
                     "test",
                     "--no-run",
-                    "--bin=web_",
-                    "--package=web_"
+                    "--bin=sqlx-example-mysql-todos",
+                    "--package=sqlx-example-mysql-todos"
                 ],
                 "filter": {
-                    "name": "web_",
+                    "name": "sqlx-example-mysql-todos",
                     "kind": "bin"
                 }
             },

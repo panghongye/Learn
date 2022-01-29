@@ -2,9 +2,6 @@
 extern crate rocket;
 
 mod json;
-#[cfg(test)]
-mod tests;
-
 mod api;
 mod model;
 
