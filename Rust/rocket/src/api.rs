@@ -1,6 +1,6 @@
 use rocket::{serde::json::{ Json, Value, serde_json::json}, fairing::{self, AdHoc}, Build, Rocket, State};
 use sqlx::MySqlPool;
-use super::model::{User,RegisterUser};
+use super::model::{RegisterUser};
 
 async fn db(rocket: Rocket<Build>) -> fairing::Result {
     // let pool = MySqlPool::connect(database_url).await?;
@@ -23,7 +23,7 @@ pub fn stage() -> AdHoc {
 
 #[post("/user_register", data = "<data>")]
 async fn user_register(data: Json<RegisterUser>,pool: &State<MySqlPool>) -> Value {
-    // let recs = sqlx::query!( r#" SELECT id, description, done FROM todos ORDER BY id "# ).fetch_all(pool).await;
+    let recs = sqlx::query!( r#" SELECT id, description, done FROM todos ORDER BY id "# ).fetch_all(*pool).await;
     // for rec in recs {
     //     println!(
     //         "- [{}] {}: {}",
@@ -33,12 +33,12 @@ async fn user_register(data: Json<RegisterUser>,pool: &State<MySqlPool>) -> Valu
     //     );
     // }
 
-    let result = sqlx::query!("DELETE FROM posts WHERE id = ?", id)
-        .execute(&mut *db)
-        .await?;
+    let result = sqlx::query!("SELECT * FROM users WHERE id = ?", 22)
+        .execute(&mut *pool)
+        .await;
 
-    Ok((result.rows_affected() == 1).then(|| ()))
+    // Ok((result.rows_affected() == 1).then(|| ()));
 
-    json!({ "code":0, "msg":"ok","data":recs})
+    json!({ "code":0, "msg":"ok","data":22})
 }
 // fn user_login(){}

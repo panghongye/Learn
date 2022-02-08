@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-rocket = {version = "0.5.0-rc.1",features=["json", "msgpack", "uuid"]}
+rocket = {version = "0.5.0-rc",features=["json", "msgpack", "uuid"]}
 sqlx = { version = "0.5", features = [ "runtime-tokio-rustls", "sqlite","mysql", "macros", "chrono" ] }
 
 # rocket_sync_db_pools="0.1.0-rc.1"
