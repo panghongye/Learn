@@ -1,9 +1,9 @@
-use std::borrow::Cow;
-use rocket::serde::json::{ Json, Value};
 use rocket::serde::json::serde_json::json;
+use rocket::serde::json::{Json, Value};
 use rocket::serde::{Deserialize, Serialize};
 use rocket::tokio::sync::Mutex;
 use rocket::State;
+use std::borrow::Cow;
 
 // The type to represent the ID of a message.
 type Id = usize;

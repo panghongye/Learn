@@ -1,8 +1,8 @@
 #[macro_use]
 extern crate rocket;
 
-mod json;
 mod api;
+mod json;
 mod model;
 
 #[launch]
