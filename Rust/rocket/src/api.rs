@@ -3,7 +3,7 @@ use rocket::{
     fairing::AdHoc,
     serde::json::{serde_json::json, Json, Value},
 };
-use sqlx::MySqlPool;
+use sqlx::mysql::MySqlPool;
 use std::env;
 
 pub fn stage() -> AdHoc {
@@ -12,8 +12,6 @@ pub fn stage() -> AdHoc {
 
 pub async fn add_data()  {
     let pool = MySqlPool::connect(&env::var("DATABASE_URL")?).await?;
-    sqlx::query("CREATE TABLE IF NOT EXISTS demotbl(id INTEGER PRIMARY KEY, quantity INTEGER)")
-        .execute(&pool)
-        .await
-        .unwrap();
+
+    sqlx::query("DELETE FROM table").execute(&pool).await?;
 }
