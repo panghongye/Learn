@@ -5,6 +5,8 @@ use rocket::{
 };
 use sqlx::mysql::MySqlPool;
 use std::env;
+type Result<T, E = rocket::response::Debug<sqlx::Error>> = std::result::Result<T, E>;
+
 
 pub fn stage() -> AdHoc {
     rocket::fairing::AdHoc::on_ignite("API", |rocket| async {
@@ -12,7 +14,7 @@ pub fn stage() -> AdHoc {
     })
 }
 #[get("/add_data")]
-pub async fn add_data() -> anyhow::Result<()> {
+pub async fn add_data() -> Result<()> {
     let pool = MySqlPool::connect(&env::var("DATABASE_URL")?).await?;
     sqlx::query("DELETE FROM table").execute(&pool).await?;
     Ok(())
