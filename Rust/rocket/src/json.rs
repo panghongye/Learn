@@ -55,7 +55,7 @@ fn not_found() -> Value {
 }
 
 pub fn stage() -> rocket::fairing::AdHoc {
-    rocket::fairing::AdHoc::on_ignite("JSON", |rocket| async {
+    rocket::fairing::AdHoc::on_ignite("json", |rocket| async {
         rocket
             .mount("/json", routes![new, update, get])
             .manage(MessageList::new(vec![]))
