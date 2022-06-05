@@ -430,6 +430,7 @@ dependencies = [
  "rbson",
  "salvo",
  "serde",
+ "serde_json",
  "tokio",
 ]
 
