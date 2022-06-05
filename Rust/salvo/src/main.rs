@@ -17,7 +17,7 @@ lazy_static! {
 #[crud_table]
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct TabTodo {
-    pub id: Option<i32>,
+    pub id: Option<u32>,
     pub body: Option<String>,
     pub done: bool,
 }
@@ -36,9 +36,25 @@ async fn lists(res: &mut Response) {
 }
 
 #[fn_handler]
-async fn update(res: &mut Response) {
-    let result: Vec<TabTodo> = RB.fetch_list().await.unwrap();
-    res.render(Text::Json(serde_json::to_string(&result).unwrap()));
+async fn update(req: &mut Request, res: &mut Response) {
+    // let t = req.read::<TabTodo>().await.unwrap();
+    let t = &TabTodo {
+        id: req.form::<u32>("id").await,
+        body: req.form::<String>("body").await,
+        // done: req.param::<bool>("done").unwrap(),
+        done: false,
+    };
+
+    match t.id {
+        None => {
+            let r = RB.save(&t, &[]).await.unwrap();
+        }
+        Some(_) => {
+            let r = RB.update_by_column::<TabTodo>("id", &t).await.unwrap();
+        }
+    }
+
+    res.render(Text::Json(serde_json::to_string(&t).unwrap()));
 }
 
 #[tokio::main]
