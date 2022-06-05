@@ -1,0 +1,12 @@
+<script id="tpl-article-list" type="text/html">
+    {% raw %}
+    {{each data}}
+    <tr>
+        <td>{{ $index }}</td>
+        <td><a href='article/{{ $value.id }}'><p>{{ $value.title }}</p></a></td>
+        <td>{{ $value.create_time }}</td>
+        <td>{{ $value.modify_time }}</td>
+    </tr>
+    {{/each}}
+    {% endraw %}
+</script>
