@@ -1,4 +1,4 @@
-#![allow(unused_must_use)]
+// #![allow(unused_must_use)]
 #[macro_use]
 extern crate rbatis;
 #[macro_use]
@@ -15,11 +15,11 @@ lazy_static! {
 }
 
 #[crud_table]
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, Default)]
 pub struct TabTodo {
     pub id: Option<u64>,
     pub body: Option<String>,
-    pub done: bool,
+    pub done: Option<bool>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, Default)]
@@ -31,9 +31,9 @@ pub struct Res<T> {
 
 #[fn_handler]
 async fn lists(res: &mut Response) {
-    let result: Vec<TabTodo> = RB.fetch_list().await.unwrap();
+    let t = RB.fetch_list::<TabTodo>().await.unwrap();
     let r = Res::<Vec<TabTodo>> {
-        data: Some(result),
+        data: Some(t),
         code: 0,
         msg: String::from("ok"),
     };
@@ -42,37 +42,32 @@ async fn lists(res: &mut Response) {
 
 #[fn_handler]
 async fn update(req: &mut Request, res: &mut Response) {
-    // let t = req.read::<TabTodo>().await.unwrap();
-    let mut t = TabTodo {
-        id: req.form::<u64>("id").await,
-        body: req.form::<String>("body").await,
-        // done: req.param::<bool>("done").unwrap(),
-        done: req.form::<bool>("done").await.unwrap(),
+    let mut t = req.parse_json::<TabTodo>().await.unwrap();
+    let mut rs = Res::<TabTodo> {
+        data: None,
+        code: 0,
+        msg: String::from("ok"),
     };
-
     match t.id {
         None => {
-            let r = RB.save(&t, &[]).await.unwrap().last_insert_id.unwrap();
-            t.id = Some(r as u64);
+            let r = RB.save(&t, &[]).await.unwrap();
+            t.id = Some(r.last_insert_id.unwrap() as u64);
         }
         Some(_) => {
-            let _r = RB.update_by_column::<TabTodo>("id", &t).await.unwrap();
+            let new_id = RB.update_by_column::<TabTodo>("id", &t).await.unwrap();
+            if new_id == 0 {
+                rs.code = 1;
+                rs.msg = String::from("记录不存在")
+            }
         }
     }
-
-    res.render(Text::Json(
-        serde_json::to_string(&Res::<TabTodo> {
-            data: Some(t),
-            code: 0,
-            msg: String::from("ok"),
-        })
-        .unwrap(),
-    ));
+    rs.data = Some(t);
+    res.render(Text::Json(serde_json::to_string(&rs).unwrap()));
 }
 
 #[tokio::main]
 pub async fn main() {
-    fast_log::init(fast_log::config::Config::new().console());
+    fast_log::init(fast_log::config::Config::new().console()).unwrap();
     // RB.link("sqlite://target/sqlite.db");
     RB.link("mysql://root:rootroot@localhost:3306/test")
         .await
