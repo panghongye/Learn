@@ -17,9 +17,16 @@ lazy_static! {
 #[crud_table]
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct TabTodo {
-    pub id: Option<u32>,
+    pub id: Option<u64>,
     pub body: Option<String>,
     pub done: bool,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize, Default)]
+pub struct Res<T> {
+    pub data: Option<T>,
+    pub code: u64,
+    pub msg: String,
 }
 
 #[fn_handler]
@@ -32,29 +39,42 @@ async fn hello_world() -> &'static str {
 #[fn_handler]
 async fn lists(res: &mut Response) {
     let result: Vec<TabTodo> = RB.fetch_list().await.unwrap();
-    res.render(Text::Json(serde_json::to_string(&result).unwrap()));
+    let r = Res::<Vec<TabTodo>> {
+        data: Some(result),
+        code: 0,
+        msg: String::from("ok"),
+    };
+    res.render(Text::Json(serde_json::to_string(&r).unwrap()));
 }
 
 #[fn_handler]
 async fn update(req: &mut Request, res: &mut Response) {
     // let t = req.read::<TabTodo>().await.unwrap();
-    let t = &TabTodo {
-        id: req.form::<u32>("id").await,
+    let mut t = TabTodo {
+        id: req.form::<u64>("id").await,
         body: req.form::<String>("body").await,
         // done: req.param::<bool>("done").unwrap(),
-        done: false,
+        done: req.form::<bool>("done").await.unwrap(),
     };
-
+    
     match t.id {
         None => {
-            let r = RB.save(&t, &[]).await.unwrap();
+            let r = RB.save(&t, &[]).await.unwrap().last_insert_id.unwrap();
+            t.id = Some(r as u64);
         }
         Some(_) => {
             let r = RB.update_by_column::<TabTodo>("id", &t).await.unwrap();
         }
     }
 
-    res.render(Text::Json(serde_json::to_string(&t).unwrap()));
+    res.render(Text::Json(
+        serde_json::to_string(&Res::<TabTodo> {
+            data: Some(t),
+            code: 0,
+            msg: String::from("ok"),
+        })
+        .unwrap(),
+    ));
 }
 
 #[tokio::main]
