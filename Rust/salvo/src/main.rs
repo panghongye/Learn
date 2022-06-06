@@ -1,4 +1,4 @@
-// #![allow(unused_must_use)]
+#![allow(unused_must_use)]
 #[macro_use]
 extern crate rbatis;
 #[macro_use]
@@ -30,13 +30,6 @@ pub struct Res<T> {
 }
 
 #[fn_handler]
-async fn hello_world() -> &'static str {
-    RB.exec("CREATE TABLE `tab_todo` (`id` int unsigned NOT NULL AUTO_INCREMENT,`body` varchar(255) DEFAULT NULL,PRIMARY KEY (`id`));",vec![])
-    .await.unwrap();
-    "Hello world"
-}
-
-#[fn_handler]
 async fn lists(res: &mut Response) {
     let result: Vec<TabTodo> = RB.fetch_list().await.unwrap();
     let r = Res::<Vec<TabTodo>> {
@@ -56,14 +49,14 @@ async fn update(req: &mut Request, res: &mut Response) {
         // done: req.param::<bool>("done").unwrap(),
         done: req.form::<bool>("done").await.unwrap(),
     };
-    
+
     match t.id {
         None => {
             let r = RB.save(&t, &[]).await.unwrap().last_insert_id.unwrap();
             t.id = Some(r as u64);
         }
         Some(_) => {
-            let r = RB.update_by_column::<TabTodo>("id", &t).await.unwrap();
+            let _r = RB.update_by_column::<TabTodo>("id", &t).await.unwrap();
         }
     }
 
