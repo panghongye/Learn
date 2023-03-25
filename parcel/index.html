@@ -1,15 +1,24 @@
 <!doctype html>
 <html lang="zh">
-  <head>
-    <meta charset="utf-8"/>
-  </head>
-  <body>
-    <div id='root'/>
-  </body>
+
+<head>
+  <meta charset="utf-8" />
+</head>
+
+<body>
+  <div id='root' />
+</body>
+
 </html>
 
-<script type="module" >
-import ReactDOM from 'react-dom';
-import App from './app';
-ReactDOM.render(<App/>, document.getElementById('root'))
+<script type="module">
+  import React from 'react'
+  import App from './app';
+  import { createRoot } from "react-dom/client";
+
+  const root = createRoot(document.getElementById("root"))
+  root.render(<App />);
+
+
+
 </script>

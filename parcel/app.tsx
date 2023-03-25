@@ -1,1 +1,3 @@
-export default ()=><div>2333</div>
+import React from 'react'
+
+export default () => <div style={{color:'red'}}>2333</div>
