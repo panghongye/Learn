@@ -15,5 +15,5 @@ lazy_static="1.4"
 log = "0.4"
 fast_log="1.5"
 
-rbatis = { version = "3.1", default-features = false, features = ["mysql","runtime-tokio-rustls","debug_mode"] }
-salvo = "0.24"
+rbatis = { version = "^4.0.41", default-features = false, features_ = ["mysql","runtime-tokio-rustls","debug_mode"] }
+salvo = "^0.37.4"
