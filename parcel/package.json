@@ -7,8 +7,5 @@
     "parcel": "latest",
     "react": "latest",
     "react-dom": "latest"
-  },
-  "devDependencies": {
-    "process": "^0.11.10"
   }
 }
