@@ -4,10 +4,10 @@
 \.parcel-cache/
 yarn-error.log
 \dist/
-!*.*
 .DS_Store
 **/.idea
 **/target
 **.pdb
 **.exe
-parcel/.parcel-cache
+**/.parcel-cache
+
