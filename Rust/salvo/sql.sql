@@ -1,6 +1,6 @@
-CREATE TABLE `tab_todo` (
+CREATE TABLE `User` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `body` varchar(255) DEFAULT NULL,
-  `done` tinyint(1) unsigned zerofill DEFAULT '0',
+  `username` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
