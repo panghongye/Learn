@@ -8,4 +8,5 @@ anyhow = "1.0"
 futures = "0.3"
 sqlx = { version="0.7", features = [ "mysql", "runtime-tokio-native-tls" ] }
 structopt = "0.3"
-tokio = { version = "1.20.0", features = ["rt", "macros"]}
+salvo = "0.56"
+tokio = { version = "1.20", features = ["rt", "macros"]}
