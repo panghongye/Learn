@@ -1,5 +1,5 @@
 use sqlx::mysql::MySqlPool;
-use std::env;
+// use std::env;
 use structopt::StructOpt;
 
 #[derive(StructOpt)]
@@ -17,7 +17,8 @@ enum Command {
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> anyhow::Result<()> {
     let args = Args::from_args_safe()?;
-    let pool = MySqlPool::connect(&env::var("DATABASE_URL")?).await?;
+    // let pool = MySqlPool::connect(&env::var("DATABASE_URL")?).await?;
+    let pool = MySqlPool::connect("mysql://root:rootroot@localhost/test").await?;
 
     match args.cmd {
         Some(Command::Add { description }) => {
@@ -45,10 +46,7 @@ async fn main() -> anyhow::Result<()> {
 async fn add_todo(pool: &MySqlPool, description: String) -> anyhow::Result<u64> {
     // Insert the task, then obtain the ID of this row
     let todo_id = sqlx::query!(
-        r#"
-INSERT INTO todos ( description )
-VALUES ( ? )
-        "#,
+        r#" INSERT INTO todos ( description )VALUES ( ? ) "#,
         description
     )
     .execute(pool)
@@ -59,31 +57,18 @@ VALUES ( ? )
 }
 
 async fn complete_todo(pool: &MySqlPool, id: u64) -> anyhow::Result<bool> {
-    let rows_affected = sqlx::query!(
-        r#"
-UPDATE todos
-SET done = TRUE
-WHERE id = ?
-        "#,
-        id
-    )
-    .execute(pool)
-    .await?
-    .rows_affected();
+    let rows_affected = sqlx::query!(r#" UPDATE todos SET done = TRUE WHERE id = ? "#, id)
+        .execute(pool)
+        .await?
+        .rows_affected();
 
     Ok(rows_affected > 0)
 }
 
 async fn list_todos(pool: &MySqlPool) -> anyhow::Result<()> {
-    let recs = sqlx::query!(
-        r#"
-SELECT id, description, done
-FROM todos
-ORDER BY id
-        "#
-    )
-    .fetch_all(pool)
-    .await?;
+    let recs = sqlx::query!(r#" SELECT id, description, done FROM todos ORDER BY id "#)
+        .fetch_all(pool)
+        .await?;
 
     // NOTE: Booleans in MySQL are stored as `TINYINT(1)` / `i8`
     //       0 = false, non-0 = true
