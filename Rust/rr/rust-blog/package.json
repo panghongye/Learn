@@ -1,7 +1,0 @@
-{
-    "scripts": {
-        "dev:rust": "cd ./rust && cargo watch -x run",
-        "dev:admin": "cd ./admin && cnpm i && yarn dev",
-        "dev:home": "cd ./admin && cnpm i && yarn serve"
-    }
-}
