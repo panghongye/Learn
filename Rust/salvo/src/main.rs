@@ -35,6 +35,7 @@ async fn main() {
     // mysql connect info
     let mysql_uri = "mysql://root:rootroot@localhost/test";
     DB.link(MysqlDriver {}, mysql_uri).await.unwrap();
+    tracing::info!("数据库连接成功");
 
     // router
     let router = Router::with_path("users").get(get_user);
