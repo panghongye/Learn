@@ -13,7 +13,7 @@ rbatis = "4.0.7"
 rbdc = "4"
 rbdc-mysql = "4"
 rbs = "4"
-salvo = "0.56"
+salvo = "0.57"
 serde = { version = "1.0.143", features = ["derive"] }
 tokio = { version = "1", features = ["macros"] }
 tracing = "0.1"
