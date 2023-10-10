@@ -1,30 +1,30 @@
-#[macro_use]
-extern crate rbatis;
-extern crate rbdc;
-
-use once_cell::sync::Lazy;
-use rbatis::RBatis;
-use rbdc_mysql::driver::MysqlDriver;
+use once_cell::sync::OnceCell;
 use salvo::prelude::*;
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
+use sqlx::{FromRow, PgPool};
 
-pub static DB: Lazy<RBatis> = Lazy::new(|| RBatis::new());
+static POSTGRES: OnceCell<PgPool> = OnceCell::new();
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[inline]
+pub fn get_postgres() -> &'static PgPool {
+    unsafe { POSTGRES.get_unchecked() }
+}
+
+#[derive(FromRow, Serialize, Debug)]
 pub struct User {
     pub id: i64,
     pub username: String,
     pub password: String,
 }
 
-impl_select!(User{select_by_id(id:String) -> Option => "`where id = #{id} limit 1`"});
 #[handler]
 pub async fn get_user(req: &mut Request, res: &mut Response) {
     let uid = req.query::<i64>("uid").unwrap();
-    let data = User::select_by_id(&mut DB.clone(), uid.to_string())
+    let data = sqlx::query_as::<_, User>("select * from users where id = $1")
+        .bind(uid)
+        .fetch_one(get_postgres())
         .await
         .unwrap();
-    println!("{:?}", data);
     res.render(serde_json::to_string(&data).unwrap());
 }
 
@@ -32,15 +32,14 @@ pub async fn get_user(req: &mut Request, res: &mut Response) {
 async fn main() {
     tracing_subscriber::fmt().init();
 
-    // mysql connect info
-    let mysql_uri = "mysql://root:rootroot@localhost/test";
-    DB.link(MysqlDriver {}, mysql_uri).await.unwrap();
-    tracing::info!("数据库连接成功");
+    // postgresql connect info
+    let postgres_uri = "postgres://postgres:rootroot@localhost/test";
+    let pool = PgPool::connect(postgres_uri).await.unwrap();
+    POSTGRES.set(pool).unwrap();
 
     // router
     let router = Router::with_path("users").get(get_user);
 
-    tracing::info!("Listening on http://127.0.0.1:5800");
-    let acceptor = TcpListener::new("127.0.0.1:5800").bind().await;
+    let acceptor = TcpListener::new("0.0.0.0:5800").bind().await;
     Server::new(acceptor).serve(router).await;
 }

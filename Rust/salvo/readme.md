@@ -1,3 +1,2 @@
-[服务](https://salvo.rs)
-
-[数据库](https://rbatis.github.io/rbatis.io)
+[web服务](https://salvo.rs)
+[sqlx数据库](https://github.com/launchbadge/sqlx)
