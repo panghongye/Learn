@@ -2,7 +2,6 @@ use once_cell::sync::OnceCell;
 use salvo::prelude::*;
 use serde::{Deserialize, Serialize};
 use sqlx::{query, FromRow, PgPool};
-
 // use std::env;
 
 static POSTGRES: OnceCell<PgPool> = OnceCell::new();
@@ -13,16 +12,22 @@ pub fn get_postgres() -> &'static PgPool {
 }
 #[derive(FromRow, Serialize, Debug, Deserialize)]
 pub struct User {
+    pub id: Option<i64>,
+    pub username: String,
+    pub password: Option<String>,
+}
+
+#[derive(FromRow, Serialize, Debug, Deserialize)]
+struct UserInfo {
     pub id: i64,
     pub username: String,
-    pub password: String,
 }
 
 #[handler]
 pub async fn get_user(req: &mut Request, res: &mut Response) {
     let id = req.query::<i64>("id").unwrap();
-    println!("{}", id);
-    let data = sqlx::query_as::<_, User>("select * from users where id = $1")
+    println!("get_user id {}", id);
+    let data = sqlx::query_as::<_, UserInfo>("select * from users where id = $1")
         .bind(id)
         .fetch_one(get_postgres())
         .await
@@ -44,8 +49,8 @@ pub async fn user_login(req: &mut Request, res: &mut Response) {
     .unwrap();
     let user = User {
         username: data.username,
-        id: data.id,
-        password: "".to_string(),
+        id: Some(data.id),
+        password: None,
     };
     res.render(serde_json::to_string(&user).unwrap());
 }
@@ -62,7 +67,7 @@ async fn main() {
     POSTGRES.set(pool).unwrap();
 
     // router
-    let router = Router::with_path("").get(user_login).post(user_login);
+    let router = Router::with_path("").get(get_user).post(user_login);
     let acceptor = TcpListener::new("localhost:5800").bind().await;
     Server::new(acceptor).serve(router).await;
 }
