@@ -1,7 +1,9 @@
 use once_cell::sync::OnceCell;
 use salvo::prelude::*;
-use serde::Serialize;
-use sqlx::{FromRow, PgPool};
+use serde::{Deserialize, Serialize};
+use sqlx::{query, FromRow, PgPool};
+
+// use std::env;
 
 static POSTGRES: OnceCell<PgPool> = OnceCell::new();
 
@@ -9,8 +11,7 @@ static POSTGRES: OnceCell<PgPool> = OnceCell::new();
 pub fn get_postgres() -> &'static PgPool {
     unsafe { POSTGRES.get_unchecked() }
 }
-
-#[derive(FromRow, Serialize, Debug)]
+#[derive(FromRow, Serialize, Debug, Deserialize)]
 pub struct User {
     pub id: i64,
     pub username: String,
@@ -19,13 +20,34 @@ pub struct User {
 
 #[handler]
 pub async fn get_user(req: &mut Request, res: &mut Response) {
-    let uid = req.query::<i64>("uid").unwrap();
+    let id = req.query::<i64>("id").unwrap();
+    println!("{}", id);
     let data = sqlx::query_as::<_, User>("select * from users where id = $1")
-        .bind(uid)
+        .bind(id)
         .fetch_one(get_postgres())
         .await
         .unwrap();
-    res.render(serde_json::to_string(&data).unwrap());
+    let d = serde_json::to_string(&data).unwrap();
+    res.render(d);
+}
+
+#[handler]
+pub async fn user_login(req: &mut Request, res: &mut Response) {
+    let user = req.parse_json::<User>().await.unwrap();
+    let data = query!(
+        r#" SELECT id,username FROM users WHERE username=$1 AND password=$2"#,
+        user.username,
+        user.password
+    )
+    .fetch_one(get_postgres())
+    .await
+    .unwrap();
+    let user = User {
+        username: data.username,
+        id: data.id,
+        password: "".to_string(),
+    };
+    res.render(serde_json::to_string(&user).unwrap());
 }
 
 #[tokio::main]
@@ -33,13 +55,14 @@ async fn main() {
     tracing_subscriber::fmt().init();
 
     // postgresql connect info
-    let postgres_uri = "postgres://postgres:rootroot@localhost/test";
-    let pool = PgPool::connect(postgres_uri).await.unwrap();
+    // let pool = PgPool::connect(&env::var("DATABASE_URL").unwrap()).await.unwrap();
+    let pool = PgPool::connect("postgres://postgres:rootroot@localhost/test")
+        .await
+        .unwrap();
     POSTGRES.set(pool).unwrap();
 
     // router
-    let router = Router::with_path("users").get(get_user);
-
-    let acceptor = TcpListener::new("0.0.0.0:5800").bind().await;
+    let router = Router::with_path("").get(user_login).post(user_login);
+    let acceptor = TcpListener::new("localhost:5800").bind().await;
     Server::new(acceptor).serve(router).await;
 }

@@ -1,5 +1,5 @@
-use salvo::prelude::*;
 use sqlx::mysql::MySqlPool;
+// use std::env;
 use structopt::StructOpt;
 
 #[derive(StructOpt)]
@@ -17,14 +17,8 @@ enum Command {
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> anyhow::Result<()> {
     let args = Args::from_args_safe()?;
+    // let pool = MySqlPool::connect(&env::var("DATABASE_URL")?).await?;
     let pool = MySqlPool::connect("mysql://root:rootroot@localhost/test").await?;
-
-    async fn ab() {
-        // router
-        let router = Router::with_path("users").get(get_user);
-        let acceptor = TcpListener::new("127.0.0.1:5800").bind().await;
-        Server::new(acceptor).serve(router);
-    }
 
     match args.cmd {
         Some(Command::Add { description }) => {
@@ -47,14 +41,6 @@ async fn main() -> anyhow::Result<()> {
     }
 
     Ok(())
-}
-
-#[handler]
-pub async fn get_user(req: &mut Request, res: &mut Response) {
-    let uid = req.query::<i64>("uid").unwrap();
-    // let data = { id : 1 };
-    // println!("{:?}", data);
-    res.render(serde_json::to_string(&data).unwrap());
 }
 
 async fn add_todo(pool: &MySqlPool, description: String) -> anyhow::Result<u64> {
