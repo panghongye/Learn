@@ -97,15 +97,14 @@ pub async fn user_login(req: &mut Request, res: &mut Response) {
 
 #[handler]
 pub async fn user_register(req: &mut Request, res: &mut Response) {
-    let user = req.parse_json::<User>().await.unwrap();
+    let par = req.parse_json::<User>().await.unwrap();
     // 查找用户名是否存在
-    let user = query!(r#" SELECT * FROM users WHERE name=$1"#, user.name,)
+    let user = query!(r#" SELECT * FROM users WHERE name=$1"#, par.name,)
         .fetch_one(get_postgres())
-        .await
-        .unwrap();
+        .await;
     // 存在则返回已注册
-    match Some(user.id) {
-        Some(_) => {
+    match user {
+        Ok(_) => {
             let result_data = ResultData::<User> {
                 data: None,
                 code: 1,
@@ -113,24 +112,22 @@ pub async fn user_register(req: &mut Request, res: &mut Response) {
             };
             res.render(serde_json::to_string(&result_data).unwrap());
         }
-        None => {
-            println!("user_register无值");
+        Err(_) => {
             // 插入新用户
-            let result = query!(
+            let r = query!(
                 r#" INSERT INTO users (name, password) VALUES ($1, $2)"#,
-                user.name,
-                user.password,
+                par.name,
+                par.password,
             )
-            .execute(get_postgres())
-            .await
-            .unwrap();
-            // let result_data = ResultData::<User> {
-            //     data: Some(result),
-            //     code: 0,
-            //     msg: "注册成功".to_string(),
-            // };
-            println!("user_register add---{:?}", result);
-            res.render(serde_json::to_string("").unwrap());
+            .fetch_one(get_postgres())
+            .await;
+            // TODO 这里应该返回注册成功的id
+            let result_data = ResultData::<User> {
+                data: None,
+                code: 0,
+                msg: "注册成功".to_string(),
+            };
+            res.render(serde_json::to_string(&result_data).unwrap());
         }
     };
 }
