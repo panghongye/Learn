@@ -1,6 +1,7 @@
 CREATE TABLE users (
-  id int8 unsigned NOT NULL AUTO_INCREMENT,
-  username varchar(255) DEFAULT NULL,
-  password varchar(255) DEFAULT NULL,
-  PRIMARY KEY (id)
+	"id" INT8 NOT NULL GENERATED ALWAYS AS IDENTITY,
+	"name" VARCHAR ( 255 ) NOT NULL,
+	"password" VARCHAR ( 255 ) NOT NULL,
+	"intro" VARCHAR ( 255 ) NOT NULL,
+   PRIMARY KEY ( "id" ) 
 );
