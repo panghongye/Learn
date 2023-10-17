@@ -70,11 +70,10 @@ pub async fn user_login(req: &mut Request, res: &mut Response) {
         Ok(r) => {
             println!("user_login ok  --{:?}", r);
             let mut r = r;
-            // r.password = "".to_string();
-            r.password = Some("".to_string());
+            r.password = "".to_string();
             let u = User {
                 id: Some(r.id),
-                name: r.name.unwrap(),
+                name: r.name,
                 password: "".to_string(),
                 intro: r.intro,
             };
@@ -115,7 +114,7 @@ pub async fn user_register(req: &mut Request, res: &mut Response) {
         }
         Err(_) => {
             // 插入新用户
-            let r = query!(
+            let _r = query!(
                 r#" INSERT INTO users (name, password) VALUES ($1, $2)"#,
                 par.name,
                 par.password,
