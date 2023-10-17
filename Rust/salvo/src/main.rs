@@ -1,5 +1,5 @@
 use once_cell::sync::OnceCell;
-use salvo::prelude::*;
+use salvo::{cors::Cors, hyper::Method, prelude::*};
 use serde::{Deserialize, Serialize};
 use sqlx::{query, FromRow, PgPool};
 // use std::env;
@@ -59,7 +59,7 @@ pub async fn get_user(req: &mut Request, res: &mut Response) {
 pub async fn user_login(req: &mut Request, res: &mut Response) {
     let user = req.parse_json::<User>().await.unwrap();
     let data = query!(
-        r#" SELECT * FROM users WHERE name=$1 AND password=$2"#,
+        r#" SELECT * FROM users WHERE name=$1 AND password=MD5($2)"#,
         user.name,
         user.password
     )
@@ -112,7 +112,7 @@ pub async fn user_register(req: &mut Request, res: &mut Response) {
         Err(_) => {
             // 插入新用户
             let _r = query!(
-                r#" INSERT INTO users (name, password) VALUES ($1, $2)"#,
+                r#" INSERT INTO users (name, password) VALUES ($1, MD5($2))"#,
                 par.name,
                 par.password,
             )
@@ -140,12 +140,27 @@ async fn main() {
         .unwrap();
     POSTGRES.set(pool).unwrap();
 
+    let cors_handler = Cors::new()
+        .allow_origin("*")
+        .allow_methods(vec![
+            Method::GET,
+            Method::POST,
+            Method::DELETE,
+            Method::OPTIONS,
+        ])
+        .allow_headers("*")
+        .into_handler();
+
     // router
-    let router = Router::with_path("user")
+    let router = Router::with_hoop(cors_handler.clone())
+        .options(handler::empty())
+        .push(Router::with_path("api/v1"))
         .get(get_user)
         .push(Router::with_path("login").post(user_login))
         .push(Router::with_path("register").post(user_register));
 
-    let acceptor = TcpListener::new("localhost:5800").bind().await;
-    Server::new(acceptor).serve(router).await;
+    let acceptor = TcpListener::new("localhost:3000").bind().await;
+    let service =
+        Service::new(router).catcher(salvo::catcher::Catcher::default().hoop(cors_handler));
+    Server::new(acceptor).serve(service).await;
 }
