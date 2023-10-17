@@ -137,7 +137,7 @@ async fn main() {
     tracing_subscriber::fmt().init();
 
     // postgresql connect info
-    // let pool = PgPool::connect(&env::var("DATABASE_URL").unwrap()).await.unwrap();
+    // let pool = PgPool::connect(&std::env::var("DATABASE_URL")?).await?;
     let pool = PgPool::connect("postgres://postgres:rootroot@localhost/test")
         .await
         .unwrap();
