@@ -68,9 +68,6 @@ pub async fn user_login(req: &mut Request, res: &mut Response) {
 
     match data {
         Ok(r) => {
-            println!("user_login ok  --{:?}", r);
-            let mut r = r;
-            r.password = "".to_string();
             let u = User {
                 id: Some(r.id),
                 name: r.name,
