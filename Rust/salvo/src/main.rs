@@ -21,9 +21,9 @@ pub struct ResultData<T> {
 #[derive(FromRow, Serialize, Debug, Deserialize)]
 pub struct User {
     id: Option<i64>,
-    pub name: String,
-    pub password: String,
-    pub intro: Option<String>,
+    name: String,
+    password: String,
+    intro: Option<String>,
 }
 
 #[handler]
@@ -70,10 +70,11 @@ pub async fn user_login(req: &mut Request, res: &mut Response) {
         Ok(r) => {
             println!("user_login ok  --{:?}", r);
             let mut r = r;
-            r.password = "".to_string();
+            // r.password = "".to_string();
+            r.password = Some("".to_string());
             let u = User {
                 id: Some(r.id),
-                name: r.name,
+                name: r.name.unwrap(),
                 password: "".to_string(),
                 intro: r.intro,
             };
