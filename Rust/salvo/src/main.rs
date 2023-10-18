@@ -24,6 +24,7 @@ pub struct User {
     name: String,
     password: String,
     intro: Option<String>,
+    token: Option<String>,
 }
 
 #[handler]
@@ -70,8 +71,9 @@ pub async fn user_login(req: &mut Request, res: &mut Response) {
         Ok(r) => {
             let u = User {
                 id: Some(r.id),
-                name: r.name,
+                token: Some("".to_string()),
                 password: "".to_string(),
+                name: r.name.unwrap(),
                 intro: r.intro,
             };
             let result_data = ResultData::<User> {
@@ -142,22 +144,17 @@ async fn main() {
 
     let cors_handler = Cors::new()
         .allow_origin("*")
-        .allow_methods(vec![
-            Method::GET,
-            Method::POST,
-            Method::DELETE,
-            Method::OPTIONS,
-        ])
         .allow_headers("*")
+        .allow_methods(vec![Method::GET, Method::POST])
         .into_handler();
 
     // router
     let router = Router::with_hoop(cors_handler.clone())
-        .options(handler::empty())
-        .push(Router::with_path("api/v1"))
+        .path("/api/v1")
         .get(get_user)
         .push(Router::with_path("login").post(user_login))
-        .push(Router::with_path("register").post(user_register));
+        .push(Router::with_path("register").post(user_register))
+        .options(handler::empty());
 
     let acceptor = TcpListener::new("localhost:3000").bind().await;
     let service =
