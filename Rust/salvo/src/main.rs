@@ -73,7 +73,7 @@ pub async fn user_login(req: &mut Request, res: &mut Response) {
                 id: Some(r.id),
                 token: Some("".to_string()),
                 password: "".to_string(),
-                name: r.name.unwrap(),
+                name: r.name,
                 intro: r.intro,
             };
             let result_data = ResultData::<User> {
@@ -134,7 +134,6 @@ pub async fn user_register(req: &mut Request, res: &mut Response) {
 #[tokio::main]
 async fn main() {
     tracing_subscriber::fmt().init();
-
     // postgresql connect info
     // let pool = PgPool::connect(&std::env::var("DATABASE_URL")?).await?;
     let pool = PgPool::connect("postgres://postgres:rootroot@localhost/test")
@@ -148,13 +147,30 @@ async fn main() {
         .allow_methods(vec![Method::GET, Method::POST])
         .into_handler();
 
+    #[derive(Debug, Serialize, Deserialize)]
+    pub struct JwtClaims {
+        username: String,
+        exp: i64,
+    }
+    const SECRET_KEY: &str = "YOUR SECRET_KEY";
+    let auth_handler: JwtAuth<JwtClaims, _> = JwtAuth::new(
+        salvo::jwt_auth::ConstDecoder::from_secret(SECRET_KEY.as_bytes()),
+    )
+    .finders(vec![
+        // Box::new(HeaderFinder::new()),
+        Box::new(salvo::jwt_auth::QueryFinder::new("jwt_token")),
+        // Box::new(CookieFinder::new("jwt_token")),
+    ])
+    .force_passed(true);
+
     // router
     let router = Router::with_hoop(cors_handler.clone())
+        .options(handler::empty())
+        .hoop(auth_handler)//TODO auth socket 
         .path("/api/v1")
         .get(get_user)
         .push(Router::with_path("login").post(user_login))
-        .push(Router::with_path("register").post(user_register))
-        .options(handler::empty());
+        .push(Router::with_path("register").post(user_register));
 
     let acceptor = TcpListener::new("localhost:3000").bind().await;
     let service =
